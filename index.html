@@ -1,385 +1,1281 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#f6f3ed" />
-  <meta name="description" content="Thoughtfully designed homes by Caledonia Builders. Considered architecture, honest materials, and a more personal building experience." />
-  <link rel="icon" type="image/svg+xml" href="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg%26w=242%26h=70%26f=svg">
-  <title>Caledonia Builders — A considered way home</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --paper: #f6f3ed;
-      --paper-deep: #eae5dc;
-      --ink: #242720;
-      --muted: #77786f;
-      --forest: #39463b;
-      --sage: #a5aa96;
-      --clay: #b6a18b;
-      --line: rgba(36,39,32,.18);
-      --serif: "Playfair Display", Georgia, serif;
-      --sans: "Manrope", Arial, sans-serif;
-      --mono: "DM Mono", monospace;
-      --g: clamp(22px, 6vw, 92px);
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
-    body.menu-open { overflow: hidden; }
-    a { color: inherit; text-decoration: none; }
-    img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    button, a { -webkit-tap-highlight-color: transparent; }
-    ::selection { background: var(--forest); color: var(--paper); }
-    .skip { position: absolute; left: -9999px; top: 10px; z-index: 100; padding: 12px; background: white; }
-    .skip:focus { left: 12px; }
-    .eyebrow { display: flex; align-items: center; gap: 12px; font: 10px var(--mono); letter-spacing: .15em; text-transform: uppercase; }
-    .eyebrow::before { content: ""; display: block; width: 28px; height: 1px; background: currentColor; opacity: .75; }
-    .announcement { display: flex; justify-content: space-between; gap: 16px; padding: 11px var(--g); background: var(--forest); color: #f6f3ed; font: 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
-    .announcement span:last-child { color: #d6c8b7; }
-    .header { height: 82px; padding: 0 var(--g); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 30; background: rgba(246,243,237,.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
-    .brand { display: inline-flex; align-items: center; width: 175px; }
-    .brand img { display: block; width: 100%; height: auto; max-height: 56px; object-fit: contain; object-position: left center; }
-    .footer .brand { width: 185px; padding: 8px 10px; background: var(--paper); }
-    .footer .brand img { max-height: 56px; }
-    .nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 42px); font-size: 10px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
-    .nav a:not(.nav-cta) { position: relative; padding: 10px 0; }
-    .nav a:not(.nav-cta)::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1px; background: var(--forest); transition: right .25s ease; }
-    .nav a:not(.nav-cta):hover::after { right: 0; }
-    .nav-cta { display: inline-flex; align-items: center; gap: 24px; padding: 14px 17px; background: var(--forest); color: var(--paper); transition: background .25s, transform .25s; }
-    .nav-cta:hover { background: var(--ink); transform: translateY(-2px); }
-    .menu { display: none; border: 1px solid var(--line); background: transparent; padding: 11px 13px; color: var(--ink); font: 700 10px var(--sans); letter-spacing: .1em; text-transform: uppercase; }
-    .hero { position: relative; min-height: min(790px, calc(100svh - 110px)); min-height: clamp(650px, 82svh, 850px); display: flex; align-items: flex-end; overflow: hidden; color: white; background: #565b50; }
-    .hero-image { position: absolute; inset: 0; }
-    .hero-image img { object-position: center 54%; filter: brightness(.67) saturate(.72); animation: imageIn 1.4s cubic-bezier(.2,.7,.2,1) both; }
-    .hero-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(25,31,26,.67) 0%, rgba(25,31,26,.22) 58%, rgba(25,31,26,.05) 100%), linear-gradient(0deg, rgba(25,31,26,.48), transparent 58%); }
-    .hero-content { position: relative; z-index: 1; width: 100%; padding: clamp(55px, 8vw, 115px) var(--g); }
-    .hero .eyebrow { color: #e4d8c8; }
-    h1, h2, h3, p { margin-top: 0; }
-    .hero h1 { max-width: 1050px; margin: 28px 0 30px; font: 500 clamp(58px, 9.2vw, 132px)/.91 var(--serif); letter-spacing: -.065em; }
-    .hero h1 em { color: #d7c5ad; font-weight: 500; }
-    .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 35px; max-width: 1020px; }
-    .hero-bottom p { max-width: 390px; margin: 0; color: rgba(255,255,255,.86); font-size: 13px; line-height: 1.9; }
-    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
-    .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; padding: 17px 20px; border: 1px solid var(--forest); background: var(--forest); color: var(--paper); font: 700 10px var(--sans); letter-spacing: .1em; text-transform: uppercase; transition: background .25s, color .25s, transform .25s; }
-    .button:hover { transform: translateY(-3px); background: var(--paper); border-color: var(--paper); color: var(--ink); }
-    .button b { font: 400 18px var(--sans); }
-    .button-light { background: var(--paper); color: var(--ink); border-color: var(--paper); }
-    .button-light:hover { background: transparent; color: white; border-color: white; }
-    .text-link { display: inline-flex; align-items: center; gap: 16px; padding-bottom: 8px; border-bottom: 1px solid currentColor; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-    .text-link span { font-size: 18px; transition: transform .2s; }
-    .text-link:hover span { transform: translate(3px,-3px); }
-    .hero-index { position: absolute; z-index: 2; right: var(--g); top: 50%; writing-mode: vertical-rl; font: 9px var(--mono); letter-spacing: .14em; color: rgba(255,255,255,.8); }
-    .ticker { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px var(--g); background: var(--paper-deep); color: var(--forest); font: 9px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
-    .ticker .star { font-size: 17px; color: var(--clay); }
-    .section { padding: clamp(90px, 12vw, 160px) var(--g); }
-    .manifesto { display: grid; grid-template-columns: .65fr 1.35fr; gap: clamp(35px, 8vw, 130px); }
-    .section-label { color: var(--forest); }
-    .section-label span { color: var(--muted); margin-right: 8px; }
-    .manifesto h2, .homes h2, .process h2 { margin: 0; font: 500 clamp(43px, 6.3vw, 86px)/1.04 var(--serif); letter-spacing: -.055em; }
-    .manifesto h2 em, .homes h2 em, .process h2 em { color: #7c8674; font-weight: 500; }
-    .manifesto-foot { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; margin-top: 36px; }
-    .manifesto-foot p, .section-intro { max-width: 390px; margin-bottom: 0; color: #686a61; font-size: 12px; line-height: 1.95; }
-    .manifesto-foot .text-link { margin-top: 24px; }
-    .feature { display: grid; grid-template-columns: 1.08fr .92fr; background: var(--forest); color: var(--paper); }
-    .feature-image { position: relative; min-height: 640px; overflow: hidden; }
-    .feature-image img { filter: saturate(.75); transition: transform .9s cubic-bezier(.2,.7,.2,1); }
-    .feature-image:hover img { transform: scale(1.035); }
-    .image-tag { position: absolute; left: 24px; bottom: 24px; padding: 12px 14px; background: var(--paper); color: var(--ink); font: 9px var(--mono); letter-spacing: .09em; text-transform: uppercase; }
-    .feature-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(45px, 7vw, 105px); }
-    .feature-copy .section-label { color: #d8c7b1; }
-    .feature-copy h2 { margin: 25px 0; font: 500 clamp(42px, 5.2vw, 72px)/1.02 var(--serif); letter-spacing: -.05em; }
-    .feature-copy h2 em { color: #c9b69d; }
-    .feature-copy > p { max-width: 410px; color: rgba(246,243,237,.76); font-size: 12px; line-height: 1.95; }
-    .feature-list { margin-top: 28px; border-top: 1px solid rgba(246,243,237,.24); }
-    .feature-list div { display: grid; grid-template-columns: 34px 1fr; align-items: center; gap: 14px; padding: 17px 0; border-bottom: 1px solid rgba(246,243,237,.24); }
-    .feature-list small { color: #c9b69d; font: 10px var(--mono); }
-    .feature-list strong { font-size: 11px; font-weight: 600; }
-    .homes-head, .process-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 35px; margin-bottom: 52px; }
-    .homes h2, .process h2 { margin-top: 18px; }
-    .homes-head .section-intro, .process-head .section-intro { max-width: 280px; }
-    .gallery { display: grid; grid-template-columns: 1.12fr .88fr; gap: clamp(22px, 4vw, 60px); align-items: start; }
-    .home-card:nth-child(2) { margin-top: 120px; }
-    .home-image { height: clamp(350px, 47vw, 620px); overflow: hidden; position: relative; background: var(--paper-deep); }
-    .home-image img { filter: saturate(.78); transition: transform .8s cubic-bezier(.2,.7,.2,1), filter .5s; }
-    .home-card:hover .home-image img { transform: scale(1.035); filter: saturate(1); }
-    .home-image::after { content: "↗"; position: absolute; right: 17px; bottom: 17px; display: grid; place-items: center; width: 44px; height: 44px; background: var(--forest); color: white; font-size: 21px; opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
-    .home-card:hover .home-image::after { opacity: 1; transform: translateY(0); }
-    .home-meta { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--line); }
-    .home-meta h3 { margin: 0; font: 500 clamp(22px, 2.4vw, 30px) var(--serif); }
-    .home-meta p { margin: 8px 0 0; color: var(--muted); font: 9px var(--mono); letter-spacing: .09em; text-transform: uppercase; }
-    .home-meta > span { padding-top: 5px; color: var(--forest); font: 9px var(--mono); }
-    .quote { display: grid; grid-template-columns: .5fr 1.5fr; gap: 50px; align-items: start; padding: clamp(75px, 10vw, 130px) var(--g); background: #e8e1d6; }
-    .quote blockquote { max-width: 1000px; margin: 0; font: 500 clamp(36px, 5.6vw, 74px)/1.08 var(--serif); letter-spacing: -.045em; }
-    .quote blockquote em { color: #78816f; }
-    .attribution { margin-top: 28px; color: var(--muted); font: 9px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
-    .step { margin-right: 24px; padding: 23px 24px 0 0; border-right: 1px solid var(--line); }
-    .step:last-child { margin-right: 0; border-right: 0; }
-    .step small { color: var(--forest); font: 9px var(--mono); letter-spacing: .1em; }
-    .step h3 { margin: 32px 0 12px; font: 500 25px var(--serif); }
-    .step p { max-width: 230px; margin: 0; color: #686a61; font-size: 11px; line-height: 1.9; }
-    .contact { position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 35px; margin: 0 var(--g) clamp(70px, 9vw, 120px); padding: clamp(45px, 7vw, 95px); background: var(--paper-deep); }
-    .contact::after { content: "C"; position: absolute; right: 18%; top: 8%; color: rgba(57,70,59,.06); font: italic 300px/.8 var(--serif); pointer-events: none; }
-    .contact h2 { position: relative; z-index: 1; max-width: 800px; margin: 23px 0 0; font: 500 clamp(44px, 6.5vw, 84px)/.98 var(--serif); letter-spacing: -.055em; }
-    .contact .button { position: relative; z-index: 2; white-space: nowrap; }
-    .footer { padding: 55px var(--g) 25px; background: var(--ink); color: var(--paper); }
-    .footer-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 40px; padding-bottom: 50px; }
-    .footer .brand-mark { border-color: var(--paper); color: var(--paper); }
-    .footer .brand-name small { color: #b7b7ad; }
-    .footer-note { color: #c9b69d; font: italic 22px/1.35 var(--serif); }
-    .footer-links { display: flex; flex-wrap: wrap; gap: 22px; font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
-    .footer-links a:hover { color: #c9b69d; }
-    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; padding-top: 20px; border-top: 1px solid rgba(246,243,237,.2); color: #b7b7ad; font: 9px var(--mono); }
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: .12s; } .delay-2 { transition-delay: .23s; } .delay-3 { transition-delay: .34s; }
-    :focus-visible { outline: 2px solid var(--forest); outline-offset: 4px; }
-    @keyframes imageIn { from { transform: scale(1.05); opacity: .7; } to { transform: scale(1); opacity: 1; } }
-    @media (max-width: 900px) {
-      .header { height: 74px; }
-      .nav { gap: 16px; font-size: 9px; }
-      .nav-cta { gap: 12px; padding: 13px; }
-      .hero { min-height: 700px; }
-      .manifesto { grid-template-columns: .45fr 1.55fr; gap: 35px; }
-      .feature { grid-template-columns: 1fr 1fr; }
-      .feature-image { min-height: 560px; }
-      .feature-copy { padding: 38px; }
-      .steps { grid-template-columns: repeat(2, 1fr); row-gap: 35px; }
-      .step:nth-child(2) { border-right: 0; margin-right: 0; }
-    }
-    @media (max-width: 640px) {
-      .announcement { font-size: 7px; line-height: 1.5; }
-      .announcement span:last-child { display: none; }
-      .header { height: 70px; }
-      .brand { width: 150px; }
-      .footer .brand { width: 175px; }
-      .menu { display: block; }
-      .nav { display: none; position: fixed; top: 70px; left: 0; right: 0; bottom: 0; padding: 25px var(--g); background: var(--paper); flex-direction: column; align-items: stretch; gap: 8px; font-size: 12px; }
-      .nav.open { display: flex; }
-      .nav a:not(.nav-cta) { padding: 17px 0; border-bottom: 1px solid var(--line); }
-      .nav-cta { justify-content: space-between; margin-top: 14px; padding: 17px; }
-      .hero { min-height: 730px; min-height: min(780px, calc(100svh - 90px)); align-items: flex-end; }
-      .hero-image img { object-position: 60% center; }
-      .hero-content { padding-top: 70px; padding-bottom: 48px; }
-      .hero h1 { font-size: clamp(56px, 14vw, 82px); margin: 25px 0; }
-      .hero-bottom { display: block; }
-      .hero-bottom p { font-size: 12px; max-width: 340px; }
-      .hero-actions { margin-top: 25px; gap: 19px; }
-      .button { padding: 15px 16px; gap: 17px; }
-      .hero-index { display: none; }
-      .ticker { justify-content: center; flex-wrap: wrap; gap: 12px; font-size: 8px; }
-      .section { padding-top: 82px; padding-bottom: 85px; }
-      .manifesto { display: block; }
-      .manifesto > .section-label { margin-bottom: 28px; }
-      .manifesto h2 { font-size: clamp(42px, 11vw, 62px); }
-      .manifesto-foot { grid-template-columns: 1fr; gap: 20px; }
-      .feature { grid-template-columns: 1fr; }
-      .feature-image { min-height: 390px; height: 390px; }
-      .feature-copy { padding: 55px var(--g); }
-      .feature-copy h2 { font-size: 51px; }
-      .homes-head, .process-head { display: block; }
-      .homes-head .section-intro, .process-head .section-intro { margin-top: 22px; }
-      .gallery { grid-template-columns: 1fr; gap: 35px; }
-      .home-card:nth-child(2) { margin-top: 0; }
-      .home-image { height: 410px; }
-      .quote { grid-template-columns: 1fr; gap: 28px; padding-top: 75px; padding-bottom: 75px; }
-      .quote blockquote { font-size: clamp(36px, 10vw, 56px); }
-      .step { margin-right: 0; padding-right: 12px; }
-      .step:nth-child(odd) { margin-right: 16px; }
-      .step h3 { margin-top: 24px; font-size: 23px; }
-      .contact { grid-template-columns: 1fr; margin-left: var(--g); margin-right: var(--g); padding: 38px 26px; }
-      .contact h2 { font-size: clamp(44px, 12vw, 62px); }
-      .contact::after { right: 0; top: 34%; font-size: 220px; }
-      .contact .button { justify-self: start; }
-      .footer-top { flex-direction: column; padding-bottom: 38px; }
-      .footer-bottom { flex-direction: column; }
-      .footer-links { gap: 18px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
-  </style>
-</head>
-<body>
-  <a class="skip" href="#main">Skip to content</a>
-  <div class="announcement">
-    <span>Caledonia Builders · Thoughtful homes, considered living</span>
-    <span>Made for the way you live ↗</span>
-  </div>
-
-  <header class="header">
-    <a class="brand" href="#top" aria-label="Caledonia Builders home">
-      <img src="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg&w=242&h=70&f=svg" alt="Caledonia Builders">
-    </a>
-    <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">Menu +</button>
-    <nav class="nav" id="nav" aria-label="Main navigation">
-      <a href="#approach">Our philosophy</a>
-      <a href="#homes">The homes</a>
-      <a href="#process">The process</a>
-      <a class="nav-cta" href="#contact">Start a conversation <span>↗</span></a>
-    </nav>
-  </header>
-
-  <main id="main">
-    <section class="hero" id="top">
-      <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=90" alt="Warm contemporary living room with natural textures and considered furniture">
-      </div>
-      <div class="hero-content">
-        <div class="eyebrow reveal">Homes with a point of view</div>
-        <h1 class="reveal delay-1">Room to live.<br><em>Space to belong.</em></h1>
-        <div class="hero-bottom">
-          <p class="reveal delay-2">A home is more than what you see. It’s the feeling you carry into every room, the rituals that take shape, and the moments that become yours.</p>
-          <div class="hero-actions reveal delay-3">
-            <a class="button button-light" href="#homes">Explore the homes <b>↗</b></a>
-            <a class="text-link" href="#approach">Our philosophy <span>↗</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="hero-index">CALEDONIA / BUILT WITH INTENTION</div>
-    </section>
-
-    <div class="ticker" aria-label="Our principles">
-      <span>Honest materials</span><span class="star">✳</span><span>Considered architecture</span><span class="star">✳</span><span>Everyday comfort</span><span class="star">✳</span><span>Made to last</span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f3ed" />
+    <meta
+      name="description"
+      content="Thoughtfully designed homes by Caledonia Builders. Considered architecture, honest materials, and a more personal building experience."
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg%26w=242%26h=70%26f=svg"
+    />
+    <title>Caledonia Builders — A considered way home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f6f3ed;
+        --paper-deep: #eae5dc;
+        --ink: #242720;
+        --muted: #77786f;
+        --forest: #39463b;
+        --sage: #a5aa96;
+        --clay: #b6a18b;
+        --line: rgba(36, 39, 32, 0.18);
+        --serif: "Playfair Display", Georgia, serif;
+        --sans: "Manrope", Arial, sans-serif;
+        --mono: "DM Mono", monospace;
+        --g: clamp(22px, 6vw, 92px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 90px;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      body.menu-open {
+        overflow: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      button,
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      ::selection {
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 10px;
+        z-index: 100;
+        padding: 12px;
+        background: white;
+      }
+      .skip:focus {
+        left: 12px;
+      }
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font: 10px var(--mono);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+      .eyebrow::before {
+        content: "";
+        display: block;
+        width: 28px;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.75;
+      }
+      .announcement {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 11px var(--g);
+        background: var(--forest);
+        color: #f6f3ed;
+        font: 9px var(--mono);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .announcement span:last-child {
+        color: #d6c8b7;
+      }
+      .header {
+        height: 82px;
+        padding: 0 var(--g);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(246, 243, 237, 0.94);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        width: 175px;
+      }
+      .brand img {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 56px;
+        object-fit: contain;
+        object-position: left center;
+      }
+      .footer .brand {
+        width: 185px;
+        padding: 8px 10px;
+        background: var(--paper);
+      }
+      .footer .brand img {
+        max-height: 56px;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(18px, 3vw, 42px);
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .nav a:not(.nav-cta) {
+        position: relative;
+        padding: 10px 0;
+      }
+      .nav a:not(.nav-cta)::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 100%;
+        bottom: 2px;
+        height: 1px;
+        background: var(--forest);
+        transition: right 0.25s ease;
+      }
+      .nav a:not(.nav-cta):hover::after {
+        right: 0;
+      }
+      .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 24px;
+        padding: 14px 17px;
+        background: var(--forest);
+        color: var(--paper);
+        transition:
+          background 0.25s,
+          transform 0.25s;
+      }
+      .nav-cta:hover {
+        background: var(--ink);
+        transform: translateY(-2px);
+      }
+      .menu {
+        display: none;
+        border: 1px solid var(--line);
+        background: transparent;
+        padding: 11px 13px;
+        color: var(--ink);
+        font: 700 10px var(--sans);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .hero {
+        position: relative;
+        min-height: min(790px, calc(100svh - 110px));
+        min-height: clamp(650px, 82svh, 850px);
+        display: flex;
+        align-items: flex-end;
+        overflow: hidden;
+        color: white;
+        background: #565b50;
+      }
+      .hero-image {
+        position: absolute;
+        inset: 0;
+      }
+      .hero-image img {
+        object-position: center 54%;
+        filter: brightness(0.67) saturate(0.72);
+        animation: imageIn 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      .hero-image::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(25, 31, 26, 0.67) 0%,
+            rgba(25, 31, 26, 0.22) 58%,
+            rgba(25, 31, 26, 0.05) 100%
+          ),
+          linear-gradient(0deg, rgba(25, 31, 26, 0.48), transparent 58%);
+      }
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        padding: clamp(55px, 8vw, 115px) var(--g);
+      }
+      .hero .eyebrow {
+        color: #e4d8c8;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+      .hero h1 {
+        max-width: 1050px;
+        margin: 28px 0 30px;
+        font: 500 clamp(58px, 9.2vw, 132px)/0.91 var(--serif);
+        letter-spacing: -0.065em;
+      }
+      .hero h1 em {
+        color: #d7c5ad;
+        font-weight: 500;
+      }
+      .hero-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 35px;
+        max-width: 1020px;
+      }
+      .hero-bottom p {
+        max-width: 390px;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 13px;
+        line-height: 1.9;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 24px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 28px;
+        padding: 17px 20px;
+        border: 1px solid var(--forest);
+        background: var(--forest);
+        color: var(--paper);
+        font: 700 10px var(--sans);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition:
+          background 0.25s,
+          color 0.25s,
+          transform 0.25s;
+      }
+      .button:hover {
+        transform: translateY(-3px);
+        background: var(--paper);
+        border-color: var(--paper);
+        color: var(--ink);
+      }
+      .button b {
+        font: 400 18px var(--sans);
+      }
+      .button-light {
+        background: var(--paper);
+        color: var(--ink);
+        border-color: var(--paper);
+      }
+      .button-light:hover {
+        background: transparent;
+        color: white;
+        border-color: white;
+      }
+      .text-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid currentColor;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .text-link span {
+        font-size: 18px;
+        transition: transform 0.2s;
+      }
+      .text-link:hover span {
+        transform: translate(3px, -3px);
+      }
+      .hero-index {
+        position: absolute;
+        z-index: 2;
+        right: var(--g);
+        top: 50%;
+        writing-mode: vertical-rl;
+        font: 9px var(--mono);
+        letter-spacing: 0.14em;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .ticker {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px var(--g);
+        background: var(--paper-deep);
+        color: var(--forest);
+        font: 9px var(--mono);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+      .ticker .star {
+        font-size: 17px;
+        color: var(--clay);
+      }
+      .section {
+        padding: clamp(90px, 12vw, 160px) var(--g);
+      }
+      .manifesto {
+        display: grid;
+        grid-template-columns: 0.65fr 1.35fr;
+        gap: clamp(35px, 8vw, 130px);
+      }
+      .section-label {
+        color: var(--forest);
+      }
+      .section-label span {
+        color: var(--muted);
+        margin-right: 8px;
+      }
+      .manifesto h2,
+      .homes h2,
+      .process h2 {
+        margin: 0;
+        font: 500 clamp(43px, 6.3vw, 86px)/1.04 var(--serif);
+        letter-spacing: -0.055em;
+      }
+      .manifesto h2 em,
+      .homes h2 em,
+      .process h2 em {
+        color: #7c8674;
+        font-weight: 500;
+      }
+      .manifesto-foot {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        margin-top: 36px;
+      }
+      .manifesto-foot p,
+      .section-intro {
+        max-width: 390px;
+        margin-bottom: 0;
+        color: #686a61;
+        font-size: 12px;
+        line-height: 1.95;
+      }
+      .manifesto-foot .text-link {
+        margin-top: 24px;
+      }
+      .feature {
+        display: grid;
+        grid-template-columns: 1.08fr 0.92fr;
+        background: var(--forest);
+        color: var(--paper);
+      }
+      .feature-image {
+        position: relative;
+        min-height: 640px;
+        overflow: hidden;
+      }
+      .feature-image img {
+        filter: saturate(0.75);
+        transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .feature-image:hover img {
+        transform: scale(1.035);
+      }
+      .image-tag {
+        position: absolute;
+        left: 24px;
+        bottom: 24px;
+        padding: 12px 14px;
+        background: var(--paper);
+        color: var(--ink);
+        font: 9px var(--mono);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .feature-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: clamp(45px, 7vw, 105px);
+      }
+      .feature-copy .section-label {
+        color: #d8c7b1;
+      }
+      .feature-copy h2 {
+        margin: 25px 0;
+        font: 500 clamp(42px, 5.2vw, 72px)/1.02 var(--serif);
+        letter-spacing: -0.05em;
+      }
+      .feature-copy h2 em {
+        color: #c9b69d;
+      }
+      .feature-copy > p {
+        max-width: 410px;
+        color: rgba(246, 243, 237, 0.76);
+        font-size: 12px;
+        line-height: 1.95;
+      }
+      .feature-list {
+        margin-top: 28px;
+        border-top: 1px solid rgba(246, 243, 237, 0.24);
+      }
+      .feature-list div {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        align-items: center;
+        gap: 14px;
+        padding: 17px 0;
+        border-bottom: 1px solid rgba(246, 243, 237, 0.24);
+      }
+      .feature-list small {
+        color: #c9b69d;
+        font: 10px var(--mono);
+      }
+      .feature-list strong {
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .homes-head,
+      .process-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 35px;
+        margin-bottom: 52px;
+      }
+      .homes h2,
+      .process h2 {
+        margin-top: 18px;
+      }
+      .homes-head .section-intro,
+      .process-head .section-intro {
+        max-width: 280px;
+      }
+      .gallery {
+        display: grid;
+        grid-template-columns: 1.12fr 0.88fr;
+        gap: clamp(22px, 4vw, 60px);
+        align-items: start;
+      }
+      .home-card:nth-child(2) {
+        margin-top: 120px;
+      }
+      .home-image {
+        height: clamp(350px, 47vw, 620px);
+        overflow: hidden;
+        position: relative;
+        background: var(--paper-deep);
+      }
+      .home-image img {
+        filter: saturate(0.78);
+        transition:
+          transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+          filter 0.5s;
+      }
+      .home-card:hover .home-image img {
+        transform: scale(1.035);
+        filter: saturate(1);
+      }
+      .home-image::after {
+        content: "↗";
+        position: absolute;
+        right: 17px;
+        bottom: 17px;
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        background: var(--forest);
+        color: white;
+        font-size: 21px;
+        opacity: 0;
+        transform: translateY(6px);
+        transition:
+          opacity 0.25s,
+          transform 0.25s;
+      }
+      .home-card:hover .home-image::after {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .home-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .home-meta h3 {
+        margin: 0;
+        font: 500 clamp(22px, 2.4vw, 30px) var(--serif);
+      }
+      .home-meta p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font: 9px var(--mono);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+      .home-meta > span {
+        padding-top: 5px;
+        color: var(--forest);
+        font: 9px var(--mono);
+      }
+      .quote {
+        display: grid;
+        grid-template-columns: 0.5fr 1.5fr;
+        gap: 50px;
+        align-items: start;
+        padding: clamp(75px, 10vw, 130px) var(--g);
+        background: #e8e1d6;
+      }
+      .quote blockquote {
+        max-width: 1000px;
+        margin: 0;
+        font: 500 clamp(36px, 5.6vw, 74px)/1.08 var(--serif);
+        letter-spacing: -0.045em;
+      }
+      .quote blockquote em {
+        color: #78816f;
+      }
+      .attribution {
+        margin-top: 28px;
+        color: var(--muted);
+        font: 9px var(--mono);
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-top: 1px solid var(--line);
+      }
+      .step {
+        margin-right: 24px;
+        padding: 23px 24px 0 0;
+        border-right: 1px solid var(--line);
+      }
+      .step:last-child {
+        margin-right: 0;
+        border-right: 0;
+      }
+      .step small {
+        color: var(--forest);
+        font: 9px var(--mono);
+        letter-spacing: 0.1em;
+      }
+      .step h3 {
+        margin: 32px 0 12px;
+        font: 500 25px var(--serif);
+      }
+      .step p {
+        max-width: 230px;
+        margin: 0;
+        color: #686a61;
+        font-size: 11px;
+        line-height: 1.9;
+      }
+      .contact {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 35px;
+        margin: 0 var(--g) clamp(70px, 9vw, 120px);
+        padding: clamp(45px, 7vw, 95px);
+        background: var(--paper-deep);
+      }
+      .contact::after {
+        content: "C";
+        position: absolute;
+        right: 18%;
+        top: 8%;
+        color: rgba(57, 70, 59, 0.06);
+        font: italic 300px/0.8 var(--serif);
+        pointer-events: none;
+      }
+      .contact h2 {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 23px 0 0;
+        font: 500 clamp(44px, 6.5vw, 84px)/0.98 var(--serif);
+        letter-spacing: -0.055em;
+      }
+      .contact .button {
+        position: relative;
+        z-index: 2;
+        white-space: nowrap;
+      }
+      .footer {
+        padding: 55px var(--g) 25px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .footer-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 40px;
+        padding-bottom: 50px;
+      }
+      .footer .brand-mark {
+        border-color: var(--paper);
+        color: var(--paper);
+      }
+      .footer .brand-name small {
+        color: #b7b7ad;
+      }
+      .footer-note {
+        color: #c9b69d;
+        font: italic 22px/1.35 var(--serif);
+      }
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 22px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .footer-links a:hover {
+        color: #c9b69d;
+      }
+      .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(246, 243, 237, 0.2);
+        color: #b7b7ad;
+        font: 9px var(--mono);
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .delay-1 {
+        transition-delay: 0.12s;
+      }
+      .delay-2 {
+        transition-delay: 0.23s;
+      }
+      .delay-3 {
+        transition-delay: 0.34s;
+      }
+      :focus-visible {
+        outline: 2px solid var(--forest);
+        outline-offset: 4px;
+      }
+      @keyframes imageIn {
+        from {
+          transform: scale(1.05);
+          opacity: 0.7;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      @media (max-width: 900px) {
+        .header {
+          height: 74px;
+        }
+        .nav {
+          gap: 16px;
+          font-size: 9px;
+        }
+        .nav-cta {
+          gap: 12px;
+          padding: 13px;
+        }
+        .hero {
+          min-height: 700px;
+        }
+        .manifesto {
+          grid-template-columns: 0.45fr 1.55fr;
+          gap: 35px;
+        }
+        .feature {
+          grid-template-columns: 1fr 1fr;
+        }
+        .feature-image {
+          min-height: 560px;
+        }
+        .feature-copy {
+          padding: 38px;
+        }
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+          row-gap: 35px;
+        }
+        .step:nth-child(2) {
+          border-right: 0;
+          margin-right: 0;
+        }
+      }
+      @media (max-width: 640px) {
+        .announcement {
+          font-size: 7px;
+          line-height: 1.5;
+        }
+        .announcement span:last-child {
+          display: none;
+        }
+        .header {
+          height: 70px;
+        }
+        .brand {
+          width: 150px;
+        }
+        .footer .brand {
+          width: 175px;
+        }
+        .menu {
+          display: block;
+        }
+        .nav {
+          display: none;
+          position: fixed;
+          top: 70px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          padding: 25px var(--g);
+          background: var(--paper);
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+          font-size: 12px;
+        }
+        .nav.open {
+          display: flex;
+        }
+        .nav a:not(.nav-cta) {
+          padding: 17px 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .nav-cta {
+          justify-content: space-between;
+          margin-top: 14px;
+          padding: 17px;
+        }
+        .hero {
+          min-height: 730px;
+          min-height: min(780px, calc(100svh - 90px));
+          align-items: flex-end;
+        }
+        .hero-image img {
+          object-position: 60% center;
+        }
+        .hero-content {
+          padding-top: 70px;
+          padding-bottom: 48px;
+        }
+        .hero h1 {
+          font-size: clamp(56px, 14vw, 82px);
+          margin: 25px 0;
+        }
+        .hero-bottom {
+          display: block;
+        }
+        .hero-bottom p {
+          font-size: 12px;
+          max-width: 340px;
+        }
+        .hero-actions {
+          margin-top: 25px;
+          gap: 19px;
+        }
+        .button {
+          padding: 15px 16px;
+          gap: 17px;
+        }
+        .hero-index {
+          display: none;
+        }
+        .ticker {
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 12px;
+          font-size: 8px;
+        }
+        .section {
+          padding-top: 82px;
+          padding-bottom: 85px;
+        }
+        .manifesto {
+          display: block;
+        }
+        .manifesto > .section-label {
+          margin-bottom: 28px;
+        }
+        .manifesto h2 {
+          font-size: clamp(42px, 11vw, 62px);
+        }
+        .manifesto-foot {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+        .feature {
+          grid-template-columns: 1fr;
+        }
+        .feature-image {
+          min-height: 390px;
+          height: 390px;
+        }
+        .feature-copy {
+          padding: 55px var(--g);
+        }
+        .feature-copy h2 {
+          font-size: 51px;
+        }
+        .homes-head,
+        .process-head {
+          display: block;
+        }
+        .homes-head .section-intro,
+        .process-head .section-intro {
+          margin-top: 22px;
+        }
+        .gallery {
+          grid-template-columns: 1fr;
+          gap: 35px;
+        }
+        .home-card:nth-child(2) {
+          margin-top: 0;
+        }
+        .home-image {
+          height: 410px;
+        }
+        .quote {
+          grid-template-columns: 1fr;
+          gap: 28px;
+          padding-top: 75px;
+          padding-bottom: 75px;
+        }
+        .quote blockquote {
+          font-size: clamp(36px, 10vw, 56px);
+        }
+        .step {
+          margin-right: 0;
+          padding-right: 12px;
+        }
+        .step:nth-child(odd) {
+          margin-right: 16px;
+        }
+        .step h3 {
+          margin-top: 24px;
+          font-size: 23px;
+        }
+        .contact {
+          grid-template-columns: 1fr;
+          margin-left: var(--g);
+          margin-right: var(--g);
+          padding: 38px 26px;
+        }
+        .contact h2 {
+          font-size: clamp(44px, 12vw, 62px);
+        }
+        .contact::after {
+          right: 0;
+          top: 34%;
+          font-size: 220px;
+        }
+        .contact .button {
+          justify-self: start;
+        }
+        .footer-top {
+          flex-direction: column;
+          padding-bottom: 38px;
+        }
+        .footer-bottom {
+          flex-direction: column;
+        }
+        .footer-links {
+          gap: 18px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+        .reveal {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="announcement">
+      <span>Caledonia Builders · Thoughtful homes, considered living</span>
+      <span>Made for the way you live ↗</span>
     </div>
 
-    <section class="section manifesto" id="approach">
-      <div class="section-label eyebrow reveal"><span>01 /</span> A more personal approach</div>
-      <div>
-        <h2 class="reveal">The best homes don’t just look right. They <em>feel right.</em></h2>
-        <div class="manifesto-foot">
-          <p class="reveal">Natural light in the right places. Materials that grow more beautiful with time. A kitchen that brings everyone together. We believe good design starts with how you want to live.</p>
-          <div class="reveal delay-1">
-            <p>We bring thoughtful planning and considered detail to the building process, so the finished home feels effortless, warm, and unmistakably yours.</p>
-            <a class="text-link" href="#process">How we work <span>↗</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="feature">
-      <div class="feature-image">
-        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1500&q=88" alt="Contemporary home with natural materials and generous glazing" loading="lazy">
-        <span class="image-tag">Architecture / Material / Light</span>
-      </div>
-      <div class="feature-copy">
-        <div class="section-label eyebrow reveal"><span>02 /</span> The Caledonia difference</div>
-        <h2 class="reveal delay-1">Beautifully <em>considered.</em><br>Never overdone.</h2>
-        <p class="reveal delay-2">A home should have character without chasing trends. Every proportion, finish, and transition has a role to play — creating a place that feels grounded, personal, and built for the long run.</p>
-        <div class="feature-list">
-          <div class="reveal"><small>01</small><strong>Design that starts with real life</strong></div>
-          <div class="reveal delay-1"><small>02</small><strong>Materials chosen to age beautifully</strong></div>
-          <div class="reveal delay-2"><small>03</small><strong>Details that make a difference</strong></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section homes" id="homes">
-      <div class="homes-head">
-        <div>
-          <div class="section-label eyebrow reveal"><span>03 /</span> A closer look</div>
-          <h2 class="reveal delay-1">A feeling of <em>home.</em></h2>
-        </div>
-        <p class="section-intro reveal delay-2">Explore the forms, finishes, and little details that make a house feel like it belongs to you.</p>
-      </div>
-      <div class="gallery">
-        <article class="home-card reveal">
-          <a href="#contact" aria-label="Discuss warmth in every detail">
-            <div class="home-image"><img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1500&q=88" alt="Warm residential living room with natural wood and soft neutral finishes" loading="lazy"></div>
-            <div class="home-meta"><div><h3>Warmth in every detail</h3><p>01 / Material & atmosphere</p></div><span>VIEW ↗</span></div>
-          </a>
-        </article>
-        <article class="home-card reveal delay-1">
-          <a href="#contact" aria-label="Discuss light-filled spaces">
-            <div class="home-image"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1300&q=88" alt="Quiet contemporary home opening onto a garden" loading="lazy"></div>
-            <div class="home-meta"><div><h3>Light, space, and calm</h3><p>02 / Form & flow</p></div><span>VIEW ↗</span></div>
-          </a>
-        </article>
-      </div>
-    </section>
-
-    <section class="quote">
-      <div class="section-label eyebrow reveal"><span>04 /</span> Our belief</div>
-      <div>
-        <blockquote class="reveal">“A home should make the everyday feel a little more <em>extraordinary.</em>”</blockquote>
-        <div class="attribution reveal delay-1">The Caledonia philosophy</div>
-      </div>
-    </section>
-
-    <section class="section process" id="process">
-      <div class="process-head">
-        <div>
-          <div class="section-label eyebrow reveal"><span>05 /</span> A clear journey</div>
-          <h2 class="reveal delay-1">Good things take<br><em>good thinking.</em></h2>
-        </div>
-        <p class="section-intro reveal delay-2">Building a home is a big commitment. We believe the experience should feel as thoughtful as the result.</p>
-      </div>
-      <div class="steps">
-        <article class="step reveal"><small>01 / UNDERSTAND</small><h3>Begin with you.</h3><p>We listen to how you live, what you value, and what you want your home to make possible.</p></article>
-        <article class="step reveal delay-1"><small>02 / CONSIDER</small><h3>Make a plan.</h3><p>We shape the ideas, priorities, and practical decisions into a clear direction.</p></article>
-        <article class="step reveal delay-2"><small>03 / CREATE</small><h3>Build with care.</h3><p>Each stage is guided by considered choices, clear communication, and attention to detail.</p></article>
-        <article class="step reveal delay-3"><small>04 / LIVE</small><h3>Make it yours.</h3><p>Then comes the best part: living in a place that feels like it was always meant for you.</p></article>
-      </div>
-    </section>
-
-    <section class="contact" id="contact">
-      <div>
-        <div class="section-label eyebrow reveal"><span>06 /</span> Your next chapter</div>
-        <h2 class="reveal delay-1">Let’s make a place for what matters.</h2>
-      </div>
-      <a class="button reveal delay-2" href="https://www.caledoniabuilders.com/">Start a conversation <b>↗</b></a>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-top">
+    <header class="header">
       <a class="brand" href="#top" aria-label="Caledonia Builders home">
-        <img src="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg&w=242&h=70&f=svg" alt="Caledonia Builders">
+        <img
+          src="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg&w=242&h=70&f=svg"
+          alt="Caledonia Builders"
+        />
       </a>
-      <div class="footer-note">A thoughtful home.<br>A life that fits.</div>
-      <div class="footer-links"><a href="#approach">Philosophy</a><a href="#homes">Homes</a><a href="#process">Process</a><a href="#contact">Contact ↗</a></div>
-    </div>
-    <div class="footer-bottom"><span>© 2026 Caledonia Builders · Design concept</span><span>Designed around the feeling of home.</span></div>
-  </footer>
+      <button class="menu" id="menu" aria-expanded="false" aria-controls="nav">
+        Menu +
+      </button>
+      <nav class="nav" id="nav" aria-label="Main navigation">
+        <a href="#approach">Our philosophy</a>
+        <a href="#homes">The homes</a>
+        <a href="#process">The process</a>
+        <a class="nav-cta" href="#contact"
+          >Start a conversation <span>↗</span></a
+        >
+      </nav>
+    </header>
 
-  <script>
-    const menu = document.getElementById("menu");
-    const nav = document.getElementById("nav");
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2200&q=90"
+            alt="Warm contemporary living room with natural textures and considered furniture"
+          />
+        </div>
+        <div class="hero-content">
+          <div class="eyebrow reveal">Homes with a point of view</div>
+          <h1 class="reveal delay-1">
+            Room to live.<br /><em>Space to belong.</em>
+          </h1>
+          <div class="hero-bottom">
+            <p class="reveal delay-2">
+              A home is more than what you see. It’s the feeling you carry into
+              every room, the rituals that take shape, and the moments that
+              become yours.
+            </p>
+            <div class="hero-actions reveal delay-3">
+              <a class="button button-light" href="#homes"
+                >Explore the homes <b></b
+              ></a>
+              <a class="text-link" href="#approach"
+                >Our philosophy <span></span
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-index">CALEDONIA / BUILT WITH INTENTION</div>
+      </section>
 
-    menu.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("open");
-      menu.setAttribute("aria-expanded", String(isOpen));
-      menu.textContent = isOpen ? "Close −" : "Menu +";
-      document.body.classList.toggle("menu-open", isOpen);
-    });
+      <div class="ticker" aria-label="Our principles">
+        <span>Honest materials</span><span class="star">✳</span
+        ><span>Considered architecture</span><span class="star">✳</span
+        ><span>Everyday comfort</span><span class="star">✳</span
+        ><span>Made to last</span>
+      </div>
 
-    nav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        nav.classList.remove("open");
-        menu.setAttribute("aria-expanded", "false");
-        menu.textContent = "Menu +";
-        document.body.classList.remove("menu-open");
+      <section class="section manifesto" id="approach">
+        <div class="section-label eyebrow reveal">
+          <span>01 /</span> A more personal approach
+        </div>
+        <div>
+          <h2 class="reveal">
+            The best homes don’t just look right. They <em>feel right.</em>
+          </h2>
+          <div class="manifesto-foot">
+            <p class="reveal">
+              Natural light in the right places. Materials that grow more
+              beautiful with time. A kitchen that brings everyone together. We
+              believe good design starts with how you want to live.
+            </p>
+            <div class="reveal delay-1">
+              <p>
+                We bring thoughtful planning and considered detail to the
+                building process, so the finished home feels effortless, warm,
+                and unmistakably yours.
+              </p>
+              <a class="text-link" href="#process"
+                >How we work <span>↗</span></a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature">
+        <div class="feature-image">
+          <img
+            src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1500&q=88"
+            alt="Contemporary home with natural materials and generous glazing"
+            loading="lazy"
+          />
+          <span class="image-tag">Architecture / Material / Light</span>
+        </div>
+        <div class="feature-copy">
+          <div class="section-label eyebrow reveal">
+            <span>02 /</span> The Caledonia difference
+          </div>
+          <h2 class="reveal delay-1">
+            Beautifully <em>considered.</em><br />Never overdone.
+          </h2>
+          <p class="reveal delay-2">
+            A home should have character without chasing trends. Every
+            proportion, finish, and transition has a role to play — creating a
+            place that feels grounded, personal, and built for the long run.
+          </p>
+          <div class="feature-list">
+            <div class="reveal">
+              <small>01</small
+              ><strong>Design that starts with real life</strong>
+            </div>
+            <div class="reveal delay-1">
+              <small>02</small
+              ><strong>Materials chosen to age beautifully</strong>
+            </div>
+            <div class="reveal delay-2">
+              <small>03</small><strong>Details that make a difference</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section homes" id="homes">
+        <div class="homes-head">
+          <div>
+            <div class="section-label eyebrow reveal">
+              <span>03 /</span> A closer look
+            </div>
+            <h2 class="reveal delay-1">A feeling of <em>home.</em></h2>
+          </div>
+          <p class="section-intro reveal delay-2">
+            Explore the forms, finishes, and little details that make a house
+            feel like it belongs to you.
+          </p>
+        </div>
+        <div class="gallery">
+          <article class="home-card reveal">
+            <a href="#contact" aria-label="Discuss warmth in every detail">
+              <div class="home-image">
+                <img
+                  src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1500&q=88"
+                  alt="Warm residential living room with natural wood and soft neutral finishes"
+                  loading="lazy"
+                />
+              </div>
+              <div class="home-meta">
+                <div>
+                  <h3>Warmth in every detail</h3>
+                  <p>01 / Material & atmosphere</p>
+                </div>
+                <span>VIEW ↗</span>
+              </div>
+            </a>
+          </article>
+          <article class="home-card reveal delay-1">
+            <a href="#contact" aria-label="Discuss light-filled spaces">
+              <div class="home-image">
+                <img
+                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1300&q=88"
+                  alt="Quiet contemporary home opening onto a garden"
+                  loading="lazy"
+                />
+              </div>
+              <div class="home-meta">
+                <div>
+                  <h3>Light, space, and calm</h3>
+                  <p>02 / Form & flow</p>
+                </div>
+                <span>VIEW ↗</span>
+              </div>
+            </a>
+          </article>
+        </div>
+      </section>
+
+      <section class="quote">
+        <div class="section-label eyebrow reveal">
+          <span>04 /</span> Our belief
+        </div>
+        <div>
+          <blockquote class="reveal">
+            “A home should make the everyday feel a little more
+            <em>extraordinary.</em>”
+          </blockquote>
+          <div class="attribution reveal delay-1">The Caledonia philosophy</div>
+        </div>
+      </section>
+
+      <section class="section process" id="process">
+        <div class="process-head">
+          <div>
+            <div class="section-label eyebrow reveal">
+              <span>05 /</span> A clear journey
+            </div>
+            <h2 class="reveal delay-1">
+              Good things take<br /><em>good thinking.</em>
+            </h2>
+          </div>
+          <p class="section-intro reveal delay-2">
+            Building a home is a big commitment. We believe the experience
+            should feel as thoughtful as the result.
+          </p>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <small>01 / UNDERSTAND</small>
+            <h3>Begin with you.</h3>
+            <p>
+              We listen to how you live, what you value, and what you want your
+              home to make possible.
+            </p>
+          </article>
+          <article class="step reveal delay-1">
+            <small>02 / CONSIDER</small>
+            <h3>Make a plan.</h3>
+            <p>
+              We shape the ideas, priorities, and practical decisions into a
+              clear direction.
+            </p>
+          </article>
+          <article class="step reveal delay-2">
+            <small>03 / CREATE</small>
+            <h3>Build with care.</h3>
+            <p>
+              Each stage is guided by considered choices, clear communication,
+              and attention to detail.
+            </p>
+          </article>
+          <article class="step reveal delay-3">
+            <small>04 / LIVE</small>
+            <h3>Make it yours.</h3>
+            <p>
+              Then comes the best part: living in a place that feels like it was
+              always meant for you.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <div>
+          <div class="section-label eyebrow reveal">
+            <span>06 /</span> Your next chapter
+          </div>
+          <h2 class="reveal delay-1">Let’s make a place for what matters.</h2>
+        </div>
+        <a
+          class="button reveal delay-2"
+          href="https://www.caledoniabuilders.com/"
+          >Start a conversation <b>↗</b></a
+        >
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-top">
+        <a class="brand" href="#top" aria-label="Caledonia Builders home">
+          <img
+            src="https://www.caledoniabuilders.com/_image?href=%2F_astro%2Flogo-caledonia.AnFPsFq9.svg&w=242&h=70&f=svg"
+            alt="Caledonia Builders"
+          />
+        </a>
+        <div class="footer-note">A thoughtful home.<br />A life that fits.</div>
+        <div class="footer-links">
+          <a href="#approach">Philosophy</a><a href="#homes">Homes</a
+          ><a href="#process">Process</a><a href="#contact">Contact ↗</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Caledonia Builders · Design concept</span
+        ><span>Designed around the feeling of home.</span>
+      </div>
+    </footer>
+
+    <script>
+      const menu = document.getElementById("menu");
+      const nav = document.getElementById("nav");
+
+      menu.addEventListener("click", () => {
+        const isOpen = nav.classList.toggle("open");
+        menu.setAttribute("aria-expanded", String(isOpen));
+        menu.textContent = isOpen ? "Close −" : "Menu +";
+        document.body.classList.toggle("menu-open", isOpen);
       });
-    });
 
-    const revealItems = document.querySelectorAll(".reveal");
-    if ("IntersectionObserver" in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
+      nav.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          nav.classList.remove("open");
+          menu.setAttribute("aria-expanded", "false");
+          menu.textContent = "Menu +";
+          document.body.classList.remove("menu-open");
         });
-      }, { threshold: 0.12, rootMargin: "0px 0px -30px 0px" });
-      revealItems.forEach((item) => observer.observe(item));
-    } else {
-      revealItems.forEach((item) => item.classList.add("visible"));
-    }
-  </script>
-</body>
+      });
+
+      const revealItems = document.querySelectorAll(".reveal");
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -30px 0px" },
+        );
+        revealItems.forEach((item) => observer.observe(item));
+      } else {
+        revealItems.forEach((item) => item.classList.add("visible"));
+      }
+    </script>
+  </body>
 </html>
